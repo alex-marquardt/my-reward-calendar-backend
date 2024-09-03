@@ -6,14 +6,13 @@ import jakarta.transaction.Transactional;
 import org.marquardt.api.model.CreateDateRequest;
 import org.marquardt.api.model.DateResponse;
 import org.marquardt.api.model.UpdateDateRequest;
-import org.marquardt.model.Date;
-import org.marquardt.model.DateRepository;
-import org.marquardt.model.DateState;
+import org.marquardt.model.jpa.Date;
+import org.marquardt.model.jpa.DateRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.NoSuchElementException;
 
 @ApplicationScoped
 public class DateService {
@@ -21,16 +20,9 @@ public class DateService {
     @Inject
     DateRepository dateRepository;
 
-    @Transactional
-    public DateResponse getCurrentDate() {
-        Optional<Date> optionalDate = dateRepository.find("id", LocalDate.now()).firstResultOptional();
-        if (optionalDate.isPresent()) {
-            Date existingDate = optionalDate.get();
-            return new DateResponse(existingDate.getDate(), existingDate.getState());
-        }
-        Date date = new Date();
-        dateRepository.persist(date);
-        return new DateResponse(date.getDate(), date.getState());
+    public DateResponse getDate(LocalDate date) {
+        Date dateFromDB = getDateFromDB(date);
+        return new DateResponse(dateFromDB.getDate(), dateFromDB.getState());
     }
 
     public List<DateResponse> getAllDates() {
@@ -44,13 +36,15 @@ public class DateService {
 
     @Transactional
     public DateResponse createDate(CreateDateRequest request) {
-        dateRepository.persist(getNewDateOrExistDate(request.getDate(), request.getState()));
-        return new DateResponse(request.getDate(), request.getState());
+        Date newDate = new Date(request.getDate(), request.getState());
+        dateRepository.persist(newDate);
+        return new DateResponse(newDate.getDate(), newDate.getState());
     }
 
     @Transactional
     public DateResponse updateDate(LocalDate date, UpdateDateRequest request) {
-        dateRepository.persist(getNewDateOrExistDate(date, request.getState()));
+        Date dateFromDB = getDateFromDB(date);
+        dateFromDB.setState(request.getState());
         return new DateResponse(date, request.getState());
     }
 
@@ -59,13 +53,11 @@ public class DateService {
         dateRepository.delete("id", id);
     }
 
-    private Date getNewDateOrExistDate(LocalDate date, DateState state) {
-        Optional<Date> optionalDate = dateRepository.find("id", date).firstResultOptional();
-        if (optionalDate.isPresent()) {
-            Date existingDate = optionalDate.get();
-            existingDate.setState(state);
-            return existingDate;
+    private Date getDateFromDB(LocalDate date) {
+        Date dateFromDB = dateRepository.find("id", date).firstResult();
+        if (dateFromDB == null) {
+            throw new NoSuchElementException("Date with id " + date + " does not exist");
         }
-        return new Date(date, state);
+        return dateFromDB;
     }
 }

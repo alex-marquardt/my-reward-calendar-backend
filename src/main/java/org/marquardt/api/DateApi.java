@@ -21,15 +21,15 @@ public class DateApi {
     DateService dateService;
 
     @GET
-    @Path("/")
-    public DateResponse getCurrentDate() {
-        return dateService.getCurrentDate();
-    }
-
-    @GET
     @Path("/all")
     public List<DateResponse> getDates() {
         return dateService.getAllDates();
+    }
+
+    @GET
+    @Path("/{id}")
+    public DateResponse getDateById(LocalDate id) {
+        return dateService.getDate(id);
     }
 
     @POST

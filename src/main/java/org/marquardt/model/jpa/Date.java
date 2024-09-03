@@ -1,19 +1,19 @@
-package org.marquardt.model;
+package org.marquardt.model.jpa;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import org.marquardt.model.DateState;
 
 import java.time.LocalDate;
-
 
 @Entity
 public class Date {
     @Id
     @Column(name = "ID")
-    public LocalDate date;
+    LocalDate date;
     @Column(name = "STATE")
-    public DateState state;
+    DateState state;
 
     public Date() {
         this.date = LocalDate.now();
