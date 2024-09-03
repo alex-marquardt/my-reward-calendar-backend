@@ -22,8 +22,8 @@ public class RewardApi {
     RewardService rewardService;
 
     @GET
-    @Path("/")
-    public List<RewardResponse> getRewardCollection() {
+    @Path("/all")
+    public List<RewardResponse> getRewards() {
         return rewardService.getAllRewards();
     }
 

@@ -21,7 +21,7 @@ public class Reward {
     public Reward() {
         this.id = UUID.randomUUID().toString();
         this.type = RewardType.SMALL;
-        this.state = RewardState.READY_FOR_USE;
+        this.state = RewardState.USABLE;
     }
 
     public String getId() {
