@@ -32,4 +32,10 @@ public class RewardApi {
     public RewardResponse updateReward(String id, UpdateRewardRequest request) {
         return rewardService.updateReward(id, request);
     }
+
+    @GET
+    @Path("/build")
+    public List<RewardResponse> buildRewards() {
+        return rewardService.buildRewards();
+    }
 }

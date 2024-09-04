@@ -17,14 +17,12 @@ public class RewardService {
 
     @Inject
     RewardRepository rewardRepository;
+    @Inject
+    RewardBuilder rewardBuilder;
 
     public List<RewardResponse> getAllRewards() {
         List<Reward> rewardsFromDB = rewardRepository.listAll();
-        List<RewardResponse> allRewards = new ArrayList<>();
-        for (Reward reward : rewardsFromDB) {
-            allRewards.add(new RewardResponse(reward.getId(), reward.getType(), reward.getState()));
-        }
-        return allRewards;
+        return mapRewards(rewardsFromDB);
     }
 
     @Transactional
@@ -35,5 +33,18 @@ public class RewardService {
         }
         rewardFromDB.setState(request.getState());
         return new RewardResponse(rewardFromDB.getId(), rewardFromDB.getType(), rewardFromDB.getState());
+    }
+
+    public List<RewardResponse> buildRewards() {
+        List<Reward> rewards = rewardBuilder.buildRewards();
+        return mapRewards(rewards);
+    }
+
+    private List<RewardResponse> mapRewards(List<Reward> rewardsFromDB) {
+        List<RewardResponse> allRewards = new ArrayList<>();
+        for (Reward reward : rewardsFromDB) {
+            allRewards.add(new RewardResponse(reward.getId(), reward.getType(), reward.getState()));
+        }
+        return allRewards;
     }
 }
