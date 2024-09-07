@@ -3,6 +3,7 @@ package org.marquardt.model.jpa;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import org.marquardt.model.DateState;
 
 import java.time.LocalDate;
@@ -19,15 +20,20 @@ public class Date {
     DateState state;
 
     public Date() {
-        this.id = UUID.randomUUID().toString();
         this.date = LocalDate.now();
         this.state = DateState.UNKNOWN;
     }
 
     public Date(LocalDate date, DateState state) {
-        this.id = UUID.randomUUID().toString();
         this.date = date;
         this.state = state;
+    }
+
+    @PrePersist
+    public void onPrePersist() {
+        if (this.id == null) {
+            this.id = UUID.randomUUID().toString();
+        }
     }
 
     public String getId() {

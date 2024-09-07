@@ -3,6 +3,7 @@ package org.marquardt.model.jpa;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
 import org.marquardt.model.RewardState;
 import org.marquardt.model.RewardType;
 
@@ -19,15 +20,20 @@ public class Reward {
     RewardState state;
 
     public Reward() {
-        this.id = UUID.randomUUID().toString();
         this.type = RewardType.SMALL;
         this.state = RewardState.USABLE;
     }
 
     public Reward(RewardType rewardType) {
-        this.id = UUID.randomUUID().toString();
         this.type = rewardType;
         this.state = RewardState.USABLE;
+    }
+
+    @PrePersist
+    public void onPrePersist(){
+        if (this.id == null) {
+            this.id = UUID.randomUUID().toString();
+        }
     }
 
     public String getId() {
