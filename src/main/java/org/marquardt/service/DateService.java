@@ -9,7 +9,6 @@ import org.marquardt.api.model.UpdateDateRequest;
 import org.marquardt.model.jpa.Date;
 import org.marquardt.model.jpa.DateRepository;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,16 +19,16 @@ public class DateService {
     @Inject
     DateRepository dateRepository;
 
-    public DateResponse getDate(LocalDate date) {
-        Date dateFromDB = getDateFromDB(date);
-        return new DateResponse(dateFromDB.getDate(), dateFromDB.getState());
+    public DateResponse getDate(String id) {
+        Date dateFromDB = getDateFromDB(id);
+        return new DateResponse(dateFromDB.getId(), dateFromDB.getDate(), dateFromDB.getState());
     }
 
     public List<DateResponse> getAllDates() {
         List<Date> datesFromDB = dateRepository.listAll();
         List<DateResponse> allDates = new ArrayList<>();
         for (Date date : datesFromDB) {
-                allDates.add(new DateResponse(date.getDate(), date.getState()));
+                allDates.add(new DateResponse(date.getId(), date.getDate(), date.getState()));
         }
         return allDates;
     }
@@ -38,25 +37,25 @@ public class DateService {
     public DateResponse createDate(CreateDateRequest request) {
         Date newDate = new Date(request.getDate(), request.getState());
         dateRepository.persist(newDate);
-        return new DateResponse(newDate.getDate(), newDate.getState());
+        return new DateResponse(newDate.getId(), newDate.getDate(), newDate.getState());
     }
 
     @Transactional
-    public DateResponse updateDate(LocalDate date, UpdateDateRequest request) {
-        Date dateFromDB = getDateFromDB(date);
+    public DateResponse updateDate(String id, UpdateDateRequest request) {
+        Date dateFromDB = getDateFromDB(id);
         dateFromDB.setState(request.getState());
-        return new DateResponse(date, request.getState());
+        return new DateResponse(id, dateFromDB.getDate(), dateFromDB.getState());
     }
 
     @Transactional
-    public void deleteDate(LocalDate id) {
+    public void deleteDate(String id) {
         dateRepository.delete("id", id);
     }
 
-    private Date getDateFromDB(LocalDate date) {
-        Date dateFromDB = dateRepository.find("id", date).firstResult();
+    private Date getDateFromDB(String id) {
+        Date dateFromDB = dateRepository.find("id", id).firstResult();
         if (dateFromDB == null) {
-            throw new NoSuchElementException("Date with id " + date + " does not exist");
+            throw new NoSuchElementException("Date with id " + id + " does not exist");
         }
         return dateFromDB;
     }

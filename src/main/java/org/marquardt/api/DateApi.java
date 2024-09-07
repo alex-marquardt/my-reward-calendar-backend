@@ -28,7 +28,7 @@ public class DateApi {
 
     @GET
     @Path("/{id}")
-    public DateResponse getDateById(LocalDate id) {
+    public DateResponse getDateById(String id) {
         return dateService.getDate(id);
     }
 
@@ -40,13 +40,13 @@ public class DateApi {
 
     @PUT
     @Path("/{id}")
-    public DateResponse updateDate(LocalDate id, UpdateDateRequest request) {
+    public DateResponse updateDate(String id, UpdateDateRequest request) {
         return dateService.updateDate(id, request);
     }
 
     @DELETE
     @Path("/{id}")
-    public void deleteDate(LocalDate id) {
+    public void deleteDate(String id) {
         dateService.deleteDate(id);
     }
 }
