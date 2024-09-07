@@ -22,6 +22,12 @@ public class RewardApi {
     RewardService rewardService;
 
     @GET
+    @Path("/build")
+    public List<RewardResponse> buildRewards() {
+        return rewardService.buildRewards();
+    }
+
+    @GET
     @Path("/all")
     public List<RewardResponse> getRewards() {
         return rewardService.getAllRewards();
@@ -31,11 +37,5 @@ public class RewardApi {
     @Path("/{id}")
     public RewardResponse updateReward(String id, UpdateRewardRequest request) {
         return rewardService.updateReward(id, request);
-    }
-
-    @GET
-    @Path("/build")
-    public List<RewardResponse> buildRewards() {
-        return rewardService.buildRewards();
     }
 }
