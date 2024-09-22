@@ -21,6 +21,7 @@ public class RewardService {
     RewardBuilder rewardBuilder;
 
     public List<RewardResponse> getAllRewards() {
+        // todo call buildRewards()
         List<Reward> rewardsFromDB = rewardRepository.listAll();
         return mapRewards(rewardsFromDB);
     }
@@ -36,6 +37,7 @@ public class RewardService {
     }
 
     public List<RewardResponse> buildRewards() {
+        // todo check old rewards and new rewards match
         List<Reward> rewards = rewardBuilder.buildRewards();
         return mapRewards(rewards);
     }

@@ -36,7 +36,7 @@ public class RewardBuilder {
         for (Date date : dates) {
             // set start date
             if (current == null) {
-                datesInStrike.add(current);
+                datesInStrike.add(date);
                 current = date;
                 continue;
             }
