@@ -2,6 +2,7 @@ package org.marquardt.api.model;
 
 import org.marquardt.model.RewardState;
 import org.marquardt.model.RewardType;
+import org.marquardt.model.jpa.Reward;
 
 public class RewardResponse {
 
@@ -9,10 +10,10 @@ public class RewardResponse {
     private RewardType type;
     private RewardState state;
 
-    public RewardResponse(String id, RewardType type, RewardState state) {
-        this.id = id;
-        this.type = type;
-        this.state = state;
+    public RewardResponse(Reward reward) {
+        this.id = reward.getId();
+        this.type = reward.getType();
+        this.state = reward.getState();
     }
 
     public String getId() {

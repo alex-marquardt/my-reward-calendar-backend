@@ -8,7 +8,7 @@ import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
 import org.marquardt.api.model.RewardResponse;
-import org.marquardt.api.model.UpdateRewardRequest;
+import org.marquardt.api.model.RewardRequest;
 import org.marquardt.service.RewardService;
 
 import java.util.List;
@@ -35,7 +35,7 @@ public class RewardApi {
 
     @PUT
     @Path("/{id}")
-    public RewardResponse updateReward(String id, UpdateRewardRequest request) {
+    public RewardResponse updateReward(String id, RewardRequest request) {
         return rewardService.updateReward(id, request);
     }
 }

@@ -1,6 +1,7 @@
 package org.marquardt.api.model;
 
 import org.marquardt.model.DateState;
+import org.marquardt.model.jpa.Date;
 
 import java.time.LocalDate;
 
@@ -8,9 +9,9 @@ public class DateResponse {
     private LocalDate date;
     private DateState state;
 
-    public DateResponse(LocalDate date, DateState state) {
-        this.date = date;
-        this.state = state;
+    public DateResponse(Date date) {
+        this.date = date.getDate();
+        this.state = date.getState();
     }
 
     public LocalDate getDate() {

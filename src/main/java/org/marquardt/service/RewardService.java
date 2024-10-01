@@ -4,13 +4,14 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.marquardt.api.model.RewardResponse;
-import org.marquardt.api.model.UpdateRewardRequest;
+import org.marquardt.api.model.RewardRequest;
 import org.marquardt.model.jpa.Reward;
 import org.marquardt.model.jpa.RewardRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @ApplicationScoped
 public class RewardService {
@@ -21,23 +22,25 @@ public class RewardService {
     RewardBuilder rewardBuilder;
 
     public List<RewardResponse> getAllRewards() {
-        // todo call buildRewards()
+        buildRewards();
         List<Reward> rewardsFromDB = rewardRepository.listAll();
         return mapRewards(rewardsFromDB);
     }
 
     @Transactional
-    public RewardResponse updateReward(String id, UpdateRewardRequest request) {
-        Reward rewardFromDB = rewardRepository.find("id", id).firstResult();
-        if (rewardFromDB == null) {
+    public RewardResponse updateReward(String id, RewardRequest request) {
+        Optional<Reward> optionalReward = rewardRepository.find("id", id).firstResultOptional();
+        if (optionalReward.isEmpty()) {
             throw new NoSuchElementException("Reward with id " + id + " does not exist");
         }
-        rewardFromDB.setState(request.getState());
-        return new RewardResponse(rewardFromDB.getId(), rewardFromDB.getType(), rewardFromDB.getState());
+        Reward reward = optionalReward.get();
+        reward.setState(request.getState());
+        return new RewardResponse(reward);
     }
 
     public List<RewardResponse> buildRewards() {
         // todo check old rewards and new rewards match
+        List<Reward> rewardsFromDB = rewardRepository.listAll();
         List<Reward> rewards = rewardBuilder.buildRewards();
         return mapRewards(rewards);
     }
@@ -45,7 +48,7 @@ public class RewardService {
     private List<RewardResponse> mapRewards(List<Reward> rewardsFromDB) {
         List<RewardResponse> allRewards = new ArrayList<>();
         for (Reward reward : rewardsFromDB) {
-            allRewards.add(new RewardResponse(reward.getId(), reward.getType(), reward.getState()));
+            allRewards.add(new RewardResponse(reward));
         }
         return allRewards;
     }

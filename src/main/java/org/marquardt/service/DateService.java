@@ -22,14 +22,14 @@ public class DateService {
 
     public DateResponse getDate(LocalDate date) {
         Date dateFromDB = getDateFromDB(date);
-        return new DateResponse(dateFromDB.getDate(), dateFromDB.getState());
+        return new DateResponse(dateFromDB);
     }
 
     public List<DateResponse> getAllDates() {
         List<Date> datesFromDB = dateRepository.listAll();
         List<DateResponse> allDates = new ArrayList<>();
         for (Date date : datesFromDB) {
-            allDates.add(new DateResponse(date.getDate(), date.getState()));
+            allDates.add(new DateResponse(date));
         }
         return allDates;
     }
@@ -46,7 +46,7 @@ public class DateService {
             date = optionalDate.get();
             date.setState(request.getState());
         }
-        return new DateResponse(date.getDate(), date.getState());
+        return new DateResponse(date);
     }
 
     @Transactional
