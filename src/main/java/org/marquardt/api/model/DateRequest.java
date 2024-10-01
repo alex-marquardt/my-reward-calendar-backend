@@ -4,7 +4,7 @@ import org.marquardt.model.DateState;
 
 import java.time.LocalDate;
 
-public class CreateDateRequest {
+public class DateRequest {
     LocalDate date;
     DateState state;
 

@@ -4,9 +4,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.marquardt.api.model.CreateDateRequest;
+import org.marquardt.api.model.DateRequest;
 import org.marquardt.api.model.DateResponse;
-import org.marquardt.api.model.UpdateDateRequest;
 import org.marquardt.service.DateService;
 
 import java.time.LocalDate;
@@ -28,25 +27,19 @@ public class DateApi {
 
     @GET
     @Path("/{id}")
-    public DateResponse getDateById(String id) {
-        return dateService.getDate(id);
-    }
-
-    @POST
-    @Path("/")
-    public DateResponse createDate(CreateDateRequest request) {
-        return dateService.createDate(request);
+    public DateResponse getDate(@PathParam("id") LocalDate date) {
+        return dateService.getDate(date);
     }
 
     @PUT
-    @Path("/{id}")
-    public DateResponse updateDate(String id, UpdateDateRequest request) {
-        return dateService.updateDate(id, request);
+    @Path("/")
+    public DateResponse createOrUpdateDate(DateRequest request) {
+        return dateService.upsertDate(request);
     }
 
     @DELETE
     @Path("/{id}")
-    public void deleteDate(String id) {
-        dateService.deleteDate(id);
+    public void deleteDate(@PathParam("id") LocalDate date) {
+        dateService.deleteDate(date);
     }
 }

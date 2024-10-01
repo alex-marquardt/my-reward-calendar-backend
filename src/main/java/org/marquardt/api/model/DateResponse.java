@@ -5,22 +5,12 @@ import org.marquardt.model.DateState;
 import java.time.LocalDate;
 
 public class DateResponse {
-    private String id;
     private LocalDate date;
     private DateState state;
 
-    public DateResponse(String id, LocalDate date, DateState state) {
-        this.id = id;
+    public DateResponse(LocalDate date, DateState state) {
         this.date = date;
         this.state = state;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public LocalDate getDate() {
