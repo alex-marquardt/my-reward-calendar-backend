@@ -22,7 +22,6 @@ public class RewardService {
     RewardBuilder rewardBuilder;
 
     public List<RewardResponse> getAllRewards() {
-        buildRewards();
         List<Reward> rewardsFromDB = rewardRepository.listAll();
         return mapRewards(rewardsFromDB);
     }

@@ -38,7 +38,7 @@ public class DateService {
     public DateResponse upsertDate(DateRequest request) {
         Optional<Date> optionalDate = dateRepository.find("date", request.getDate()).firstResultOptional();
 
-        Date date;
+        Date date = new Date();
         if (optionalDate.isEmpty()) {
             date = new Date(request.getDate(), request.getState());
             dateRepository.persist(date);
@@ -55,10 +55,10 @@ public class DateService {
     }
 
     private Date getDateFromDB(LocalDate date) {
-        Date dateFromDB = dateRepository.find("date", date).firstResult();
-        if (dateFromDB == null) {
+        Optional<Date> dateFromDB = dateRepository.find("date", date).firstResultOptional();
+        if (dateFromDB.isEmpty()) {
             throw new NoSuchElementException("Date " + date + " does not exist");
         }
-        return dateFromDB;
+        return dateFromDB.get();
     }
 }

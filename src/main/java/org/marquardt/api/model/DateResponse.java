@@ -6,6 +6,7 @@ import org.marquardt.model.jpa.Date;
 import java.time.LocalDate;
 
 public class DateResponse {
+
     private LocalDate date;
     private DateState state;
 

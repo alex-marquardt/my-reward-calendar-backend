@@ -1,38 +1,39 @@
 package org.marquardt.model.jpa;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
+import jakarta.persistence.*;
 import org.marquardt.model.RewardState;
-import org.marquardt.model.RewardType;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
+@Table(name = "REWARD")
 public class Reward {
+
     @Id
-    @Column(name = "ID")
-    String id;
-    @Column(name = "TYPE")
-    RewardType type;
-    @Column(name = "STATE")
-    RewardState state;
+    @Column(name = "ID", nullable = false)
+    private String id;
+
+    @Column(name = "STATE", nullable = false)
+    private RewardState state;
+
+    @OneToMany(mappedBy = "reward", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Date> dates;
 
     public Reward() {
-        this.type = RewardType.SMALL;
-        this.state = RewardState.USABLE;
     }
 
-    public Reward(RewardType rewardType) {
-        this.type = rewardType;
-        this.state = RewardState.USABLE;
+    public Reward(List<Date> dates) {
+        setDates(dates);
     }
 
     @PrePersist
-    public void onPrePersist(){
+    public void onInsert() {
         if (this.id == null) {
             this.id = UUID.randomUUID().toString();
+        }
+        if (this.state == null) {
+            this.state = RewardState.USABLE;
         }
     }
 
@@ -44,19 +45,22 @@ public class Reward {
         this.id = id;
     }
 
-    public RewardType getType() {
-        return type;
-    }
-
-    public void setType(RewardType type) {
-        this.type = type;
-    }
-
     public RewardState getState() {
         return state;
     }
 
     public void setState(RewardState state) {
         this.state = state;
+    }
+
+    public List<Date> getDates() {
+        return dates;
+    }
+
+    public void setDates(List<Date> dates) {
+        this.dates = dates;
+        if (dates != null) {
+            dates.forEach(date -> date.setReward(this));
+        }
     }
 }

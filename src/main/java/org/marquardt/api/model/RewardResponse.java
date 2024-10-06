@@ -1,19 +1,25 @@
 package org.marquardt.api.model;
 
 import org.marquardt.model.RewardState;
-import org.marquardt.model.RewardType;
+import org.marquardt.model.jpa.Date;
 import org.marquardt.model.jpa.Reward;
+
+import java.util.List;
 
 public class RewardResponse {
 
     private String id;
-    private RewardType type;
     private RewardState state;
+    private List<DateResponse> dates;
 
     public RewardResponse(Reward reward) {
         this.id = reward.getId();
-        this.type = reward.getType();
         this.state = reward.getState();
+        this.dates = getDates(reward.getDates());
+    }
+
+    private List<DateResponse> getDates(List<Date> dates) {
+        return dates.stream().map(DateResponse::new).toList();
     }
 
     public String getId() {
@@ -24,19 +30,19 @@ public class RewardResponse {
         this.id = id;
     }
 
-    public RewardType getType() {
-        return type;
-    }
-
-    public void setType(RewardType type) {
-        this.type = type;
-    }
-
     public RewardState getState() {
         return state;
     }
 
     public void setState(RewardState state) {
         this.state = state;
+    }
+
+    public List<DateResponse> getDates() {
+        return dates;
+    }
+
+    public void setDates(List<DateResponse> dates) {
+        this.dates = dates;
     }
 }

@@ -1,11 +1,9 @@
 package org.marquardt.service;
 
-import io.quarkus.panache.common.Sort;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.marquardt.model.DateState;
-import org.marquardt.model.RewardType;
 import org.marquardt.model.jpa.Date;
 import org.marquardt.model.jpa.DateRepository;
 import org.marquardt.model.jpa.Reward;
@@ -24,15 +22,40 @@ public class RewardBuilder {
 
     @Transactional
     public void buildRewards() {
-        List<Date> dates = dateRepository.list("state", Sort.by("date"), DateState.SUCCESS);
+        // todo get latest date on reward
+        List<Date> dates = dateRepository.list("order by date");
+        if (validateDates(dates)) {
+            checkForRewards(dates);
+        }
+    }
 
-        List<Date> stackedDates = new ArrayList<>();
-
+    private void checkForRewards(List<Date> dates) {
+        List<Date> rewardDates = new ArrayList<>();
         for (Date date : dates) {
-            stackedDates.add(date);
-            Reward reward = new Reward(RewardType.SMALL, stackedDates);
-            rewardRepository.persist(reward);
-            stackedDates.clear();
+            if (date.getState().equals(DateState.SUCCESS)) {
+                rewardDates.add(date);
+            } else if (date.getState().equals(DateState.FAIL)) {
+                saveReward(rewardDates);
+                rewardDates.clear();
+            }
+        }
+    }
+
+    private boolean validateDates(List<Date> dates) {
+        for (int index = 1; index < dates.size(); index++) {
+            Date currentDate = dates.get(index);
+            Date previousDate = dates.get(index - 1);
+
+            if (!previousDate.getDate().plusDays(1).isEqual(currentDate.getDate())) {
+                return previousDate.getDate().plusDays(1).isEqual(currentDate.getDate());
+            }
+        }
+        return true;
+    }
+
+    public void saveReward(List<Date> dates) {
+        if (!dates.isEmpty()) {
+            rewardRepository.persist(new Reward(dates));
         }
     }
 }

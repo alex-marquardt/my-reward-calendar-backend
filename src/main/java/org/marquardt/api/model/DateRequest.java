@@ -5,8 +5,9 @@ import org.marquardt.model.DateState;
 import java.time.LocalDate;
 
 public class DateRequest {
-    LocalDate date;
-    DateState state;
+
+    private LocalDate date;
+    private DateState state;
 
     public LocalDate getDate() {
         return date;
