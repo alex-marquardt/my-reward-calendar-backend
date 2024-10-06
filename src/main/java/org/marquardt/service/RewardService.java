@@ -3,8 +3,8 @@ package org.marquardt.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.marquardt.api.model.RewardResponse;
 import org.marquardt.api.model.RewardRequest;
+import org.marquardt.api.model.RewardResponse;
 import org.marquardt.model.jpa.Reward;
 import org.marquardt.model.jpa.RewardRepository;
 
@@ -39,9 +39,8 @@ public class RewardService {
     }
 
     public List<RewardResponse> buildRewards() {
-        // todo check old rewards and new rewards match
-        List<Reward> rewardsFromDB = rewardRepository.listAll();
-        List<Reward> rewards = rewardBuilder.buildRewards();
+        rewardBuilder.buildRewards();
+        List<Reward> rewards = rewardRepository.listAll();
         return mapRewards(rewards);
     }
 
