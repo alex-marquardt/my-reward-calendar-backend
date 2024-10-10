@@ -50,8 +50,8 @@ public class DateService {
     }
 
     @Transactional
-    public void deleteDate(LocalDate date) {
-        dateRepository.delete("date", date);
+    public void deleteDate(String id) {
+        dateRepository.delete("id", id);
     }
 
     private Date getDateFromDB(LocalDate date) {

@@ -39,7 +39,7 @@ public class DateApi {
 
     @DELETE
     @Path("/{id}")
-    public void deleteDate(@PathParam("id") LocalDate date) {
-        dateService.deleteDate(date);
+    public void deleteDate(@PathParam("id") String id) {
+        dateService.deleteDate(id);
     }
 }
