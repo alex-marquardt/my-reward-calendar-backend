@@ -9,6 +9,7 @@ import org.marquardt.model.jpa.DateRepository;
 import org.marquardt.model.jpa.Reward;
 import org.marquardt.model.jpa.RewardRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +23,10 @@ public class RewardBuilder {
 
     @Transactional
     public void buildRewards() {
-        // todo get latest date on reward
-        List<Date> dates = dateRepository.list("order by date");
+        Date latestDateWithReward = dateRepository.getLatestDateWithReward();
+        LocalDate fromDate = latestDateWithReward != null ? latestDateWithReward.getDate() : LocalDate.EPOCH;
+
+        List<Date> dates = dateRepository.getDatesFromSpecificDate(fromDate);
         if (validateDates(dates)) {
             checkForRewards(dates);
         }
