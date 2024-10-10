@@ -4,10 +4,10 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
 import org.marquardt.model.DateState;
-import org.marquardt.model.jpa.Date;
-import org.marquardt.model.jpa.DateRepository;
-import org.marquardt.model.jpa.Reward;
-import org.marquardt.model.jpa.RewardRepository;
+import org.marquardt.jpa.Date;
+import org.marquardt.jpa.DateRepository;
+import org.marquardt.jpa.Reward;
+import org.marquardt.jpa.RewardRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

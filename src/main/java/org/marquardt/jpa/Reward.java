@@ -1,4 +1,4 @@
-package org.marquardt.model.jpa;
+package org.marquardt.jpa;
 
 import jakarta.persistence.*;
 import org.marquardt.model.RewardState;

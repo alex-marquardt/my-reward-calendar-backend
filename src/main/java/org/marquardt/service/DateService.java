@@ -3,10 +3,10 @@ package org.marquardt.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.marquardt.api.model.DateRequest;
-import org.marquardt.api.model.DateResponse;
-import org.marquardt.model.jpa.Date;
-import org.marquardt.model.jpa.DateRepository;
+import org.marquardt.model.ingoing.DateRequest;
+import org.marquardt.model.outgoing.DateResponse;
+import org.marquardt.jpa.Date;
+import org.marquardt.jpa.DateRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,7 +40,7 @@ public class DateService {
 
         Date date = new Date();
         if (optionalDate.isEmpty()) {
-            date = new Date(request.getDate(), request.getState());
+            date = new Date(request);
             dateRepository.persist(date);
         } else {
             date = optionalDate.get();

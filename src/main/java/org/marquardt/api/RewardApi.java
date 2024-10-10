@@ -7,8 +7,8 @@ import jakarta.ws.rs.PUT;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.core.MediaType;
-import org.marquardt.api.model.RewardResponse;
-import org.marquardt.api.model.RewardRequest;
+import org.marquardt.model.outgoing.RewardResponse;
+import org.marquardt.model.ingoing.RewardRequest;
 import org.marquardt.service.RewardService;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package org.marquardt.api.model;
+package org.marquardt.model.ingoing;
 
 import org.marquardt.model.DateState;
 

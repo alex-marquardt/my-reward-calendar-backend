@@ -1,4 +1,4 @@
-package org.marquardt.model.jpa;
+package org.marquardt.jpa;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepository;
 import jakarta.enterprise.context.ApplicationScoped;

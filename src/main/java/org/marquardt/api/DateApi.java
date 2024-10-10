@@ -4,8 +4,8 @@ import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
-import org.marquardt.api.model.DateRequest;
-import org.marquardt.api.model.DateResponse;
+import org.marquardt.model.ingoing.DateRequest;
+import org.marquardt.model.outgoing.DateResponse;
 import org.marquardt.service.DateService;
 
 import java.time.LocalDate;

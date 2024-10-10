@@ -1,8 +1,8 @@
-package org.marquardt.api.model;
+package org.marquardt.model.outgoing;
 
+import org.marquardt.jpa.Date;
+import org.marquardt.jpa.Reward;
 import org.marquardt.model.RewardState;
-import org.marquardt.model.jpa.Date;
-import org.marquardt.model.jpa.Reward;
 
 import java.util.List;
 

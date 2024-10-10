@@ -3,10 +3,10 @@ package org.marquardt.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.marquardt.api.model.RewardRequest;
-import org.marquardt.api.model.RewardResponse;
-import org.marquardt.model.jpa.Reward;
-import org.marquardt.model.jpa.RewardRepository;
+import org.marquardt.model.ingoing.RewardRequest;
+import org.marquardt.model.outgoing.RewardResponse;
+import org.marquardt.jpa.Reward;
+import org.marquardt.jpa.RewardRepository;
 
 import java.util.ArrayList;
 import java.util.List;
