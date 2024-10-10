@@ -27,8 +27,8 @@ public class DateApi {
 
     @GET
     @Path("/{id}")
-    public DateResponse getDate(@PathParam("id") LocalDate date) {
-        return dateService.getDate(date);
+    public DateResponse getDate(@PathParam("id") String id) {
+        return dateService.getDate(id);
     }
 
     @PUT

@@ -3,12 +3,11 @@ package org.marquardt.service;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import org.marquardt.model.ingoing.DateRequest;
-import org.marquardt.model.outgoing.DateResponse;
 import org.marquardt.jpa.Date;
 import org.marquardt.jpa.DateRepository;
+import org.marquardt.model.ingoing.DateRequest;
+import org.marquardt.model.outgoing.DateResponse;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -20,8 +19,8 @@ public class DateService {
     @Inject
     DateRepository dateRepository;
 
-    public DateResponse getDate(LocalDate date) {
-        Date dateFromDB = getDateFromDB(date);
+    public DateResponse getDate(String id) {
+        Date dateFromDB = getDateFromDB(id);
         return new DateResponse(dateFromDB);
     }
 
@@ -54,10 +53,10 @@ public class DateService {
         dateRepository.delete("id", id);
     }
 
-    private Date getDateFromDB(LocalDate date) {
-        Optional<Date> dateFromDB = dateRepository.find("date", date).firstResultOptional();
+    private Date getDateFromDB(String id) {
+        Optional<Date> dateFromDB = dateRepository.find("date", id).firstResultOptional();
         if (dateFromDB.isEmpty()) {
-            throw new NoSuchElementException("Date " + date + " does not exist");
+            throw new NoSuchElementException("Date " + id + " does not exist");
         }
         return dateFromDB.get();
     }
