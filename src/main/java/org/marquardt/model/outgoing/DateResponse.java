@@ -1,14 +1,19 @@
 package org.marquardt.model.outgoing;
 
+import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.marquardt.model.DateState;
 import org.marquardt.jpa.Date;
 
 import java.time.LocalDate;
 
+@Schema(name = "Date response")
 public class DateResponse {
 
+    @Schema(name = "Id of date", required = true)
     private String id;
+    @Schema(name = "Specific date", required = true)
     private LocalDate date;
+    @Schema(name = "State of date", required = true)
     private DateState state;
 
     public DateResponse(Date date) {
